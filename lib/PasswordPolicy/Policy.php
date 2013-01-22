@@ -119,7 +119,7 @@ class Policy {
             $msg->result = $tmp;
             $msg->message = $rule->getMessage();
             $messages[] = $msg;
-            $result &= $tmp;
+            $result = $result && $tmp;
         }
         $return = new \StdClass;
         $return->result = $result;

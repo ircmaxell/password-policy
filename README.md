@@ -17,7 +17,7 @@ Require the composer autoload file:
 
 To use, first instantiate the core policy object:
 
-    $policy = new \PasswordPolicy;
+    $policy = new \PasswordPolicy\Policy;
 
 Then, add rules:
 
