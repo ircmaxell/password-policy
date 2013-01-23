@@ -95,7 +95,7 @@ Once you've built the policy, you can call `toJavaScript()` to generate a JS ano
 Then, the policy object in JS is basically a wrapper for `$policy->test($password)`, and behaves the same (same return values).
 
     var result = policy(password);
-    if (!result->result) {
+    if (!result.result) {
         /* Process Messages To Display Failure To User */
     }
 
