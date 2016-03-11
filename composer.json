@@ -1,5 +1,5 @@
 {
-    "name": "ircmaxell/PasswordPolicy",
+    "name": "ircmaxell/password-policy",
     "type": "library",
     "version": "0.1.0-beta1",
     "description": "A tool for managing password policies",
