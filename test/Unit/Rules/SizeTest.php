@@ -10,11 +10,17 @@
  */
 namespace PasswordPolicy\Rules;
 
-class CharacterRange extends Regex
+class SizeTest extends \PHPUnit_Framework_TestCase
 {
-    public function __construct($range, $textDescription)
+    public function testNoConstraint()
     {
-        $this->description = "Expecting %s $textDescription characters";
-        $this->regex = '/[' . $range . ']/';
+        $rule = new Size();
+        $this->assertTrue($rule->test("abc"));
+    }
+
+    public function testNoConstraintFail()
+    {
+        $rule = new Size();
+        $this->assertFalse($rule->test(""));
     }
 }

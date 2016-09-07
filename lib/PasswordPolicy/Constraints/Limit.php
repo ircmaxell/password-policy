@@ -1,28 +1,40 @@
 <?php
 
+/*
+ * The Password Policy for implementing Password Policies
+ *
+ * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
+ * @copyright  2011 The Authors
+ * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @version    Build @@version@@
+ */
 namespace PasswordPolicy\Constraints;
 
-class Limit implements \PasswordPolicy\Constraint {
-
+class Limit implements \PasswordPolicy\Constraint
+{
     protected $min = 0;
     protected $max = 0;
 
-    public function __construct($min, $max) {
+    public function __construct($min, $max)
+    {
         $this->min = (int) $min;
         $this->max = (int) $max;
     }
 
-    public function check($number) {
+    public function check($number)
+    {
         if ($number < $this->min) {
             return false;
         }
         if ($number > $this->max) {
             return false;
         }
+
         return true;
     }
 
-    public function getMessage() {
+    public function getMessage()
+    {
         if ($this->max == 0) {
             return "no";
         } elseif ($this->min == 0) {
@@ -30,11 +42,14 @@ class Limit implements \PasswordPolicy\Constraint {
         } elseif ($this->max == PHP_INT_MAX) {
             return "at least {$this->min}";
         }
+
         return "at least {$this->min} and at most {$this->max}";
     }
 
-    public function toJavaScript() {
+    public function toJavaScript()
+    {
         $msg = $this->getMessage();
+
         return "function(num) {
                 if (num < {$this->min}) {
                     return false;

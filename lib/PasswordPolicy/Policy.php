@@ -1,24 +1,36 @@
 <?php
 
+/*
+ * The Password Policy for implementing Password Policies
+ *
+ * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
+ * @copyright  2011 The Authors
+ * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @version    Build @@version@@
+ */
 namespace PasswordPolicy;
 
-class Policy {
-
+class Policy
+{
     protected $rules = array();
 
-    public function atLeast($n) {
+    public function atLeast($n)
+    {
         return new Constraints\Limit($n, PHP_INT_MAX);
     }
 
-    public function atMost($n) {
+    public function atMost($n)
+    {
         return new Constraints\Limit(0, $n);
     }
 
-    public function between($min, $max) {
+    public function between($min, $max)
+    {
         return new Constraints\Limit($min, $max);
     }
 
-    public function never() {
+    public function never()
+    {
         return new Constraints\Limit(0, 0);
     }
 
@@ -36,17 +48,21 @@ class Policy {
             $rule->setConstraint($constraint);
         }
         $this->rules[] = $rule;
+
         return $this;
     }
 
-    public function length(Constraint $constraint) {
-        $rule = new Rules\Size;
+    public function length(Constraint $constraint)
+    {
+        $rule = new Rules\Size();
         $rule->setConstraint($constraint);
         $this->rules[] = $rule;
+
         return $this;
     }
 
-    public function endsWith($chars, $description = '') {
+    public function endsWith($chars, $description = '')
+    {
         list($chars, $desc) = Rules\Regex::toCharClass($chars);
         if ($desc && !$description) {
             $description = $desc;
@@ -54,10 +70,12 @@ class Policy {
         $description = 'Ends with ' . $description;
         $rule = new Rules\Regex('/[' . $chars . ']$/', $description);
         $this->rules[] = $rule;
+
         return $this;
     }
 
-    public function startsWith($chars, $description = '') {
+    public function startsWith($chars, $description = '')
+    {
         list($chars, $desc) = Rules\Regex::toCharClass($chars);
         if ($desc && !$description) {
             $description = $desc;
@@ -65,27 +83,34 @@ class Policy {
         $description = 'Starts with ' . $description;
         $rule = new Rules\Regex('/^[' . $chars . ']/', $description);
         $this->rules[] = $rule;
+
         return $this;
     }
 
-    public function notMatch($regex, $description) {
+    public function notMatch($regex, $description)
+    {
         $rule = new Rules\Regex($regex, $description);
         $rule->setConstraint($this->never());
         $this->rules[] = $rule;
+
         return $this;
     }
 
-    public function match($regex, $description) {
+    public function match($regex, $description)
+    {
         $rule = new Rules\Regex($regex, $description);
         $this->rules[] = $rule;
+
         return $this;
     }
 
-    public function addRule(Rule $rule) {
+    public function addRule(Rule $rule)
+    {
         $this->rules[] = $rule;
     }
 
-    public function toJavaScript() {
+    public function toJavaScript()
+    {
         $rules = array();
         foreach ($this->rules as $rule) {
             $rules[] = "\n" . $rule->toJavaScript();
@@ -107,27 +132,31 @@ class Policy {
                 messages: messages
             };
         })";
+
         return preg_replace('/\s\s+/', ' ', $stub);
     }
 
-    public function test($password) {
+    public function test($password)
+    {
         $messages = array();
         $result = true;
         foreach ($this->rules as $rule) {
             $tmp = $rule->test($password);
-            $msg = new \StdClass;
+            $msg = new \StdClass();
             $msg->result = $tmp;
             $msg->message = $rule->getMessage();
             $messages[] = $msg;
             $result = $result && $tmp;
         }
-        $return = new \StdClass;
+        $return = new \StdClass();
         $return->result = $result;
         $return->messages = $messages;
+
         return $return;
     }
 
-    public function getMessages($password) {
+    public function getMessages($password)
+    {
         $messages = array();
         foreach ($this->rules as $rule) {
             $message = $rule->getMessage($password);
@@ -137,7 +166,7 @@ class Policy {
                 $messages[] = array('passed', $message);
             }
         }
+
         return $messages;
     }
-
 }

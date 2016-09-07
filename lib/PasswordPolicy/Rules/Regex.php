@@ -1,29 +1,43 @@
 <?php
 
+/*
+ * The Password Policy for implementing Password Policies
+ *
+ * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
+ * @copyright  2011 The Authors
+ * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @version    Build @@version@@
+ */
 namespace PasswordPolicy\Rules;
 
-class Regex extends Base {
-
+class Regex extends Base
+{
     protected $description = '';
     protected $regex = '';
 
-    public function __construct($regex, $textDescription) {
+    public function __construct($regex, $textDescription)
+    {
         $this->description = $textDescription;
         $this->regex = $regex;
     }
 
-    public function getMessage() {
+    public function getMessage()
+    {
         $constraint = parent::getMessage();
+
         return sprintf($this->description, $constraint);
     }
 
-    public function test($password) {
+    public function test($password)
+    {
         $matches = array();
         $num = preg_match_all($this->regex, $password, $matches);
+
         return $this->testConstraint($num, $password);
     }
 
-    public function toJavaScript() {
+    public function toJavaScript()
+    {
         $ret = "{
             message: " . json_encode($this->getMessage()) . ",
             check: function(p) {
@@ -41,10 +55,12 @@ class Regex extends Base {
         $ret .= "
             }
         }";
+
         return $ret;
     }
 
-    public static function toCharClass($desc) {
+    public static function toCharClass($desc)
+    {
         switch ($desc) {
             case 'letter':
                 return array('a-zA-Z', 'letter');
@@ -61,7 +77,7 @@ class Regex extends Base {
             case 'null':
                 return array('\0', 'null');
         }
+
         return array($desc, '');
     }
-
 }
