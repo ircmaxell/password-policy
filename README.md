@@ -55,17 +55,17 @@ The policy also has short-cut helpers for creating constraints:
 
  * `atLeast($n)`: At least the param matches
 
-    Equivilant to `between($n, PHP_INT_MAX)`
+    Equivalent to `between($n, PHP_INT_MAX)`
 
  * `atMost($n)`: At most the param matches
 
-    Equivilant to `between(0, $n)`
+    Equivalent to `between(0, $n)`
 
  * `between($min, $max)`: Between $min and $max number of matches
 
  * `never()`: No matches
      
-    Equivilant to `between(0, 0)`
+    Equivalent to `between(0, 0)`
 
 ## Testing the policy
 
